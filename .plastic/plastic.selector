@@ -1,0 +1,4 @@
+repository "DiabloLikeG@NadCher@cloud"
+  path "/"
+    br "/main"
+    co "/main"
