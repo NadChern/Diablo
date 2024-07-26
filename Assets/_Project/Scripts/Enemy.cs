@@ -1,9 +1,12 @@
 using UnityEngine;
 
-public class Enemy : MonoBehaviour, IInteractable
+namespace _Project
 {
-   public void OnInteract()
+   public class Enemy : MonoBehaviour, IInteractable
    {
-      Debug.Log("Interacting with enemy");
+      public void OnInteract()
+      {
+         Debug.Log("Interacting with enemy");
+      }
    }
 }

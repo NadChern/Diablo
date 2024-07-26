@@ -1,6 +1,7 @@
 using UnityEngine;
 
-
+namespace _Project
+{
     public class EntryPoint : MonoBehaviour
     {
         [SerializeField] private PlayerMovement _playerMovement;
@@ -19,4 +20,4 @@ using UnityEngine;
             _controller.Update();
         }
     }
-
+}

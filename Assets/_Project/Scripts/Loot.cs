@@ -1,9 +1,12 @@
 using UnityEngine;
 
-public class Loot : MonoBehaviour, IInteractable
+namespace _Project
 {
-   public void OnInteract()
+   public class Loot : MonoBehaviour, IInteractable
    {
-      Debug.Log("Interacting with Loot");
+      public void OnInteract()
+      {
+         Debug.Log("Interacting with Loot");
+      }
    }
 }

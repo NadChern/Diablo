@@ -2,47 +2,50 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(NavMeshAgent))]
-public class PlayerMovement : MonoBehaviour
+namespace _Project
 {
-    private NavMeshAgent _agent;
-    private Camera _camera;
-    private Coroutine _moveCoroutine;
-    public float DistanceToStop { get; private set; } = 1.0f;
-
-    void Start()
+    [RequireComponent(typeof(NavMeshAgent))]
+    public class PlayerMovement : MonoBehaviour
     {
-        _agent = GetComponent<NavMeshAgent>();
-        _agent.stoppingDistance = 0.5f;
-    }
-
-    public void Move(Vector3 destination, IInteractable currentTarget)
-    {
-         _agent.SetDestination(destination);
-        if (currentTarget != null)
+        public float DistanceToStop { get; private set; } = 1.0f;
+        private NavMeshAgent _agent;
+        private Camera _camera;
+        private Coroutine _moveCoroutine;
+       
+        private void Start()
         {
-            StartArrivalCoroutine(currentTarget);
+            _agent = GetComponent<NavMeshAgent>();
+            _agent.stoppingDistance = 0.5f;
         }
-    }
 
-    public void SetCamera(Camera cam) =>
-        _camera = cam;
-
-   
-    private void StartArrivalCoroutine(IInteractable currentTarget)
-    {
-        if (_moveCoroutine != null)
+        public void Move(Vector3 destination, IInteractable currentTarget)
         {
-            StopCoroutine(_moveCoroutine);
+            _agent.SetDestination(destination);
+            if (currentTarget != null)
+            {
+                StartArrivalCoroutine(currentTarget);
+            }
         }
-        _moveCoroutine = StartCoroutine(CheckArrival(currentTarget));
-    }
-    
-    private IEnumerator CheckArrival(IInteractable target)
-    {
-        yield return new WaitUntil(() =>
-            _agent.remainingDistance <= _agent.stoppingDistance &&
-            !_agent.pathPending);
-        target?.OnInteract();
+
+        public void SetCamera(Camera cam) =>
+            _camera = cam;
+
+        private void StartArrivalCoroutine(IInteractable currentTarget)
+        {
+            if (_moveCoroutine != null)
+            {
+                StopCoroutine(_moveCoroutine);
+            }
+            _moveCoroutine = StartCoroutine(CheckArrival(currentTarget));
+        }
+
+        private IEnumerator CheckArrival(IInteractable target)
+        {
+            yield return new WaitUntil(() =>
+                _agent.remainingDistance <= _agent.stoppingDistance &&
+                !_agent.pathPending);
+            target?.OnInteract();
+            _moveCoroutine = null;
+        }
     }
 }

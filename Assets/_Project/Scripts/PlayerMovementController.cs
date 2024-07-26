@@ -1,49 +1,54 @@
-
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.EventSystems;
 
-public class PlayerMovementController
+namespace _Project
 {
-    private readonly PlayerMovement _playerMovement;
-    private readonly Camera _camera;
-    private readonly NavMeshAgent _agent;
-
-    public PlayerMovementController(PlayerMovement playerMovement, Camera camera)
-       {
-        _playerMovement = playerMovement;
-        _camera = camera;
-        _agent = playerMovement.GetComponent<NavMeshAgent>();
-       }
-
-    public void Update()
+    public class PlayerMovementController
     {
-        if (Input.GetMouseButtonDown(0))
+        private readonly PlayerMovement _playerMovement;
+        private readonly Camera _camera;
+        private readonly NavMeshAgent _agent;
+
+        public PlayerMovementController(PlayerMovement playerMovement,
+            Camera camera)
         {
-            if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition),
-                    out RaycastHit hit))
+            _playerMovement = playerMovement;
+            _camera = camera;
+            _agent = playerMovement.GetComponent<NavMeshAgent>();
+        }
+
+       public void Update()
+        {
+            if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
             {
-                GameObject clickedObject = hit.collider.gameObject;
-                IInteractable currentTarget =
-                    clickedObject.GetComponent<IInteractable>();
-                
-                Vector3 destination;
-                if (currentTarget != null)
+                if (Physics.Raycast(
+                        _camera.ScreenPointToRay(Input.mousePosition),
+                        out RaycastHit hit))
                 {
-                    _agent.stoppingDistance = _playerMovement.DistanceToStop;
-                    Vector3 directionToTarget =
-                        (hit.point - _playerMovement.transform.position)
-                        .normalized;
-                    destination = hit.point - directionToTarget *
-                        _playerMovement.DistanceToStop;
-                  
+                    GameObject clickedObject = hit.collider.gameObject;
+                    IInteractable currentTarget =
+                        clickedObject.GetComponent<IInteractable>();
+
+                    Vector3 destination;
+                    if (currentTarget != null)
+                    {
+                        _agent.stoppingDistance =
+                            _playerMovement.DistanceToStop;
+                        Vector3 directionToTarget =
+                            (hit.point - _playerMovement.transform.position)
+                            .normalized;
+                        destination = hit.point - directionToTarget *
+                            _playerMovement.DistanceToStop;
+                    }
+                    else
+                    {
+                        _agent.stoppingDistance = 0.5f;
+                        destination = hit.point;
+                    }
+
+                    _playerMovement.Move(destination, currentTarget);
                 }
-                else
-                {
-                    _agent.stoppingDistance = 0.5f;
-                    destination = hit.point;
-                }
-               
-                _playerMovement.Move(destination, currentTarget);
             }
         }
     }

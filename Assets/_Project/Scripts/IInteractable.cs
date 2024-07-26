@@ -1,6 +1,8 @@
 
-
-public interface IInteractable
+namespace _Project
 {
-    void OnInteract();
+    public interface IInteractable
+    {
+        void OnInteract();
+    }
 }

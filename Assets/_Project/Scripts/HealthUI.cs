@@ -1,50 +1,48 @@
-using System.Collections;
-using System.Collections.Generic;
+using _Project;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class HealthUI : MonoBehaviour
 {
-    public Slider healthSlider;
-    public Health playerHealth;
-    public Image fillImage; // ref to Image component of the Fill area
-    void Start()
+    [SerializeField] private Slider healthSlider;
+    [SerializeField] private Health playerHealth;
+
+    [SerializeField] private Image fillImage; 
+    // ref on Image component of Fill area
+
+    private void Start()
     {
         if (playerHealth != null)
         {
-            playerHealth.onHealthChanged.AddListener(UpdateHealthUI);
+            playerHealth.OnHealthChanged += UpdateHealthUI;
         }
-        UpdateHealthUI();
     }
 
-    void UpdateHealthUI()
+    private void UpdateHealthUI()
     {
         if (playerHealth != null && healthSlider != null)
         {
-            healthSlider.maxValue = playerHealth.GetMaxHealth();
-            healthSlider.value = playerHealth.GetCurrentHealth();
-            
-            // Calculate the health percentage
-            float healthPercentage = playerHealth.GetCurrentHealth() 
-                                     / (float)playerHealth.GetMaxHealth();
+            healthSlider.maxValue = playerHealth.MaxHealth;
+            healthSlider.value = playerHealth.CurrentHealth;
 
-            // Set the fill color based on the health percentage
+            // Calculate health percentage
+            float healthPercentage = playerHealth.CurrentHealth
+                                     / playerHealth.MaxHealth;
+
+            // Set fill color based on health percentage
             if (healthPercentage >= 0.75f)
             {
-                fillImage.color = Color.green; // Max health
+                fillImage.color = Color.green;
             }
             else if (healthPercentage >= 0.25f)
             {
-                fillImage.color = Color.yellow; // Mid health
+                fillImage.color = Color.yellow;
             }
             else
             {
-                fillImage.color = Color.red; // Low health
+                fillImage.color = Color.red;
             }
         }
     }
 }
-        
-    
-
-

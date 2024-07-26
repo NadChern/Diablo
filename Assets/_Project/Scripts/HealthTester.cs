@@ -1,10 +1,12 @@
+using _Project;
 using UnityEngine;
+
 
 public class HealthTester : MonoBehaviour
 {
-    public Health playerHealth;
+    [SerializeField] private Health playerHealth;
 
-    void Update()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.D))
         {

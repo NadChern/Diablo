@@ -1,47 +1,35 @@
+using System;
 using UnityEngine;
-using UnityEngine.Events;
 
-public class Health : MonoBehaviour
-{   private int _currentHealth;
-    public int maxHealth = 10;
-    public UnityEvent onHealthChanged;
-    public UnityEvent onDeath;
-    
-    void Start()
+namespace _Project
+{
+    public class Health : MonoBehaviour
     {
-        _currentHealth = maxHealth;
-        // onHealthChanged.Invoke();
-    }
+        public float MaxHealth { get; private set; } = 10;
+        public float CurrentHealth { get; private set; }
+        public event Action OnHealthChanged;
+        public event Action OnDeath;
 
-    public void TakeDamage(int damage)
-    {
-        _currentHealth -= damage;
-        if (_currentHealth <= 0)
+        private void Start()
         {
-            _currentHealth = 0;
-            onDeath.Invoke();
+            CurrentHealth = MaxHealth;
         }
-        onHealthChanged.Invoke();
-    }
 
-    public void Heal(int amount)
-    {
-        _currentHealth += amount;
-        if (_currentHealth > maxHealth)
+        public void TakeDamage(int damage)
         {
-            _currentHealth = maxHealth;
+            CurrentHealth = Mathf.Max(CurrentHealth - damage, 0);
+            if (CurrentHealth == 0)
+            {
+                OnDeath?.Invoke();
+            }
+
+            OnHealthChanged?.Invoke();
         }
-        onHealthChanged.Invoke();
-    }
 
-    public int GetCurrentHealth()
-    {
-        return _currentHealth;
-    }
-
-    public int GetMaxHealth()
-    {
-        return maxHealth;
+        public void Heal(int amount)
+        {
+            CurrentHealth = Mathf.Min(CurrentHealth + amount, MaxHealth);
+            OnHealthChanged?.Invoke();
+        }
     }
 }
-
