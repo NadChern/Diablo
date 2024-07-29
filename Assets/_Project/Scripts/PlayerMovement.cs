@@ -11,7 +11,8 @@ namespace _Project
         private NavMeshAgent _agent;
         private Camera _camera;
         private Coroutine _moveCoroutine;
-       
+        private Coroutine _attackCoroutine;
+
         private void Start()
         {
             _agent = GetComponent<NavMeshAgent>();
@@ -36,6 +37,7 @@ namespace _Project
             {
                 StopCoroutine(_moveCoroutine);
             }
+
             _moveCoroutine = StartCoroutine(CheckArrival(currentTarget));
         }
 
@@ -45,7 +47,34 @@ namespace _Project
                 _agent.remainingDistance <= _agent.stoppingDistance &&
                 !_agent.pathPending);
             target?.OnInteract();
+            if (target is Enemy enemy)
+            {
+                StartAttackCoroutine(enemy);
+            }
+
             _moveCoroutine = null;
+        }
+
+        private void StartAttackCoroutine(Enemy enemy)
+        {
+            if (_attackCoroutine != null)
+            {
+                StopCoroutine(_attackCoroutine);
+            }
+
+            _attackCoroutine = StartCoroutine(AttackEnemy(enemy));
+        }
+
+        private IEnumerator AttackEnemy(Enemy enemy)
+        {
+            while (enemy != null &&
+                   enemy.GetComponent<Health>().CurrentHealth > 0)
+            {
+                enemy.GetComponent<Health>().TakeDamage(1); // TODO avoid hardcoding
+                yield return new WaitForSeconds(2.0f);
+            }
+
+            _attackCoroutine = null;
         }
     }
 }
