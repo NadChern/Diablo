@@ -43,7 +43,7 @@ namespace _Project
                     }
                     else
                     {
-                        _agent.stoppingDistance = 0.5f;
+                        _agent.stoppingDistance = 1.0f;
                         destination = hit.point;
                     }
 

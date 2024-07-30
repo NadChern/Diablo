@@ -7,16 +7,20 @@ namespace _Project
     [RequireComponent(typeof(NavMeshAgent))]
     public class PlayerMovement : MonoBehaviour
     {
-        public float DistanceToStop { get; private set; } = 1.0f;
+        public float DistanceToStop { get; private set; } = 1.5f;
+        [SerializeField] private float attackCooldown = 1.0f;
         private NavMeshAgent _agent;
         private Camera _camera;
         private Coroutine _moveCoroutine;
         private Coroutine _attackCoroutine;
+        // private Inventory _playerInventory;
+
 
         private void Start()
         {
             _agent = GetComponent<NavMeshAgent>();
             _agent.stoppingDistance = 0.5f;
+            // _playerInventory = GetComponent<Inventory>();
         }
 
         public void Move(Vector3 destination, IInteractable currentTarget)
@@ -28,8 +32,7 @@ namespace _Project
             }
         }
 
-        public void SetCamera(Camera cam) =>
-            _camera = cam;
+        public void SetCamera(Camera cam) => _camera = cam;
 
         private void StartArrivalCoroutine(IInteractable currentTarget)
         {
@@ -49,7 +52,7 @@ namespace _Project
             target?.OnInteract();
             if (target is Enemy enemy)
             {
-                StartAttackCoroutine(enemy);
+               StartAttackCoroutine(enemy);
             }
 
             _moveCoroutine = null;
@@ -62,16 +65,26 @@ namespace _Project
                 StopCoroutine(_attackCoroutine);
             }
 
+            Debug.Log("Starting AttackEnemy coroutine.");
             _attackCoroutine = StartCoroutine(AttackEnemy(enemy));
         }
 
         private IEnumerator AttackEnemy(Enemy enemy)
         {
-            while (enemy != null &&
-                   enemy.GetComponent<Health>().CurrentHealth > 0)
+            Health enemyHealth = enemy.GetComponent<Health>();
+            while (enemy != null && enemyHealth.CurrentHealth > 0)
             {
-                enemy.GetComponent<Health>().TakeDamage(1); // TODO avoid hardcoding
-                yield return new WaitForSeconds(2.0f);
+                if (Vector3.Distance(transform.position, enemy.transform.position) > DistanceToStop)
+                {
+                    // If the player is out of range, stop attacking
+                    break;
+                }
+                
+                Debug.Log("Attacking enemy. Current health: " +
+                          enemyHealth.CurrentHealth);
+                // int damage = _playerInventory.GetEquippedWeaponDamage();
+                enemyHealth.TakeDamage(1); 
+                yield return new WaitForSeconds(attackCooldown);
             }
 
             _attackCoroutine = null;
