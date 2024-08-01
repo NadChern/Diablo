@@ -7,8 +7,6 @@ namespace _Project
     {
         public float MaxHealth { get; private set; } = 10;
         public float CurrentHealth { get; private set; }
-        public int BaseDamage { get; private set; } = 1;
-        public int CurrentDamage { get; private set; } // for weapon effect
         public event Action OnHealthChanged;
         public event Action OnDeath;
 
@@ -16,10 +14,9 @@ namespace _Project
         private void Start()
         {
             CurrentHealth = MaxHealth;
-            CurrentDamage = BaseDamage;
         }
 
-        public void TakeDamage(int damage)
+        public void TakeDamage(float damage)
         {
             CurrentHealth = Mathf.Max(CurrentHealth - damage, 0);
             if (CurrentHealth == 0)
@@ -31,12 +28,7 @@ namespace _Project
             OnHealthChanged?.Invoke();
         }
 
-        public void IncreaseDamage(int amount)
-        {
-            CurrentDamage += amount;
-        }
-        
-        public void Heal(int amount)
+        public void Heal(float amount)
         {
             CurrentHealth = Mathf.Min(CurrentHealth + amount, MaxHealth);
             OnHealthChanged?.Invoke();

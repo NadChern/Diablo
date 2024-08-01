@@ -14,7 +14,7 @@ namespace _Project
         {
             _controller =
                 new PlayerMovementController(_playerMovement, _camera);
-            _playerMovement.SetCamera(_camera);
+            // _playerMovement.SetCamera(_camera);
             foreach (Enemy enemy in _enemies)
             {
                 enemy.SetPlayer(_playerMovement.transform);

@@ -1,87 +1,115 @@
 using System.Collections.Generic;
-using UnityEngine.UI;
 using UnityEngine;
 using _Project;
 
-public class Inventory : MonoBehaviour
+
+public class InventoryItem
 {
-    public List<InventoryItem> items = new List<InventoryItem>();
-    public Transform inventoryPanel; // Reference to the inventory UI panel
-    public GameObject inventorySlotPrefab; // Prefab for an inventory slot
+    public string ItemName { get; private set; }
+    public Sprite Icon { get; private set; }
+    public string ItemID { get; private set; }
 
-    private Health _playerHealth;
-    private InventoryItem _equippedWeapon; // Store the currently equipped weapon
-
-    private void Start()
+    public InventoryItem(string itemName, Sprite icon, string itemId)
     {
-        _playerHealth = GetComponent<Health>();
-        UpdateInventoryUI();
-    }
-
-    public void AddItem(InventoryItem item)
-    {
-        items.Add(item);
-        UpdateInventoryUI();
-    }
-
-    public void RemoveItem(InventoryItem item)
-    {
-        items.Remove(item);
-        UpdateInventoryUI();
-    }
-
-    private void UpdateInventoryUI()
-    {
-        // Clear existing slots
-        foreach (Transform item in inventoryPanel)
-        {
-            Destroy(item.gameObject);
-        }
-
-        // Add new slots
-        foreach (InventoryItem item in items)
-        {
-            GameObject slot = Instantiate(inventorySlotPrefab, inventoryPanel);
-            slot.GetComponentInChildren<Image>().sprite = item.icon;
-            Button equipButton = slot.GetComponentInChildren<Button>();
-            equipButton.onClick.RemoveAllListeners();
-            equipButton.onClick.AddListener(() => EquipItem(item));
-            Button dropButton = slot.transform.Find("DropButton").GetComponent<Button>();
-            dropButton.onClick.RemoveAllListeners();
-            dropButton.onClick.AddListener(() => DropItem(item));
-        }
-    }
-
-    public void EquipItem(InventoryItem item)
-    {
-        if (_equippedWeapon != null)
-        {
-          _playerHealth.IncreaseDamage(-_equippedWeapon.damageAmount);
-        }
-
-        // Equip the new item
-        _equippedWeapon = item;
-        _playerHealth.IncreaseDamage(item.damageAmount);
-        Debug.Log("Equipped: " + item.itemName);
-        UpdateInventoryUI(); 
-    }
-
-    public void DropItem(InventoryItem item)
-    {
-        if (_equippedWeapon == item)
-        {
-            // Unequip current weapon effects before dropping
-            _playerHealth.IncreaseDamage(-_equippedWeapon.damageAmount);
-            _equippedWeapon = null;
-        }
-        RemoveItem(item);
-       Debug.Log("Dropped: " + item.itemName);
-      
-    }
-
-    public int GetEquippedWeaponDamage()
-    {
-        return _equippedWeapon != null ? _equippedWeapon.damageAmount : _playerHealth.BaseDamage;
+        ItemName = itemName;
+        Icon = icon;
+        ItemID = itemId;
     }
 }
 
+public class Inventory : MonoBehaviour
+{
+    [SerializeField] private PlayerInteraction.ItemsStorage _itemsStorage;
+    [SerializeField] private PlayerAttackSettings _playerAttackSettings;
+    private List<InventoryItem> _items = new List<InventoryItem>();
+    private List<InventoryItem> _equippedItems = new List<InventoryItem>(5);
+    [SerializeField] private Health _health;
+    // public IReadOnlyList<InventoryItem> Items => _items;
+    // public IReadOnlyList<InventoryItem> EquippedItems => _equippedItems;
+
+    // Add Item object to inventory by converting it to InventoryItem
+    public void Put(Item item)
+    {
+        _items.Add(new InventoryItem(item.name, item.Sprite, item.Id));
+    }
+
+    public void Remove(InventoryItem item)
+    {
+        _items.Remove(item);
+    }
+
+    // Equip item if fewer than 3 items are equipped
+    public void Equip(InventoryItem item)
+    {
+        if (_equippedItems.Count < 3)
+        {
+            _equippedItems.Add(item);
+            Item originalItem = _itemsStorage.GetItemById(item.ItemID);
+            
+            if (originalItem is Weapon || originalItem is Gear)
+            {
+                ApplyWeaponGearEffect(originalItem, true);
+            }
+            else if (originalItem is Potion)
+            {
+                ApplyPotionEffect(originalItem, true);
+            }
+
+            Remove(item);
+        }
+        else
+        {
+            Debug.Log("You can equip a maximum of 3 items.");
+        }
+    }
+
+
+    // Unequip item, reverse its effects, add it back to inventory
+    public void Unequip(InventoryItem item)
+    {
+        if (_equippedItems.Contains(item))
+        {
+            _equippedItems.Remove(item);
+            Item originalItem = _itemsStorage.GetItemById(item.ItemID);
+
+            if (originalItem is Weapon || originalItem is Gear)
+            {
+                ApplyWeaponGearEffect(originalItem, false);
+            }
+            
+            _items.Add(item);
+        }
+    }
+
+    private void ApplyPotionEffect(Item item, bool isEquipped)
+    {
+        if (item is Potion potion && isEquipped)
+        {
+            if (_health.CurrentHealth < _health.MaxHealth * 0.25f)
+            {
+                _health.Heal(potion.HealAmount);
+                Debug.Log("Potion used to heal.");
+                // Remove potion after use
+                _equippedItems.Remove(new InventoryItem(item.name, item.Sprite, item.Id)); 
+            }  
+        }
+    }
+    private void ApplyWeaponGearEffect(Item item, bool isEquipped)
+    {
+        if (item is Weapon weapon)
+        {
+            if (isEquipped)
+            {
+                _playerAttackSettings.UpdateWeapon(weapon.Damage, weapon.Range, weapon.Cooldown);
+            }
+            else
+            {
+                _playerAttackSettings.ResetToDefault();
+            }
+        }
+        else if (item is Gear gear)
+        {
+            // TODO Apply gear effects, 
+        }
+    }
+}

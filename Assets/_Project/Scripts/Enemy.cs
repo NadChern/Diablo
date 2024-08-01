@@ -12,10 +12,5 @@ namespace _Project
          _health = GetComponent<Health>();
        }
       
-      public void OnInteract()
-      {
-         Debug.Log("Interacting with enemy");
-      }
-      
    }
 }

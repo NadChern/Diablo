@@ -6,6 +6,7 @@ namespace _Project
 {
     public class PlayerMovementController
     {
+        public float DistanceToStop { get; private set; } = 1.5f;
         private readonly PlayerMovement _playerMovement;
         private readonly Camera _camera;
         private readonly NavMeshAgent _agent;
@@ -18,28 +19,22 @@ namespace _Project
             _agent = playerMovement.GetComponent<NavMeshAgent>();
         }
 
-       public void Update()
+        public void Update()
         {
             if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
             {
-                if (Physics.Raycast(
-                        _camera.ScreenPointToRay(Input.mousePosition),
+                if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition),
                         out RaycastHit hit))
                 {
                     GameObject clickedObject = hit.collider.gameObject;
-                    IInteractable currentTarget =
-                        clickedObject.GetComponent<IInteractable>();
+                    IInteractable currentTarget = clickedObject.GetComponent<IInteractable>();
 
                     Vector3 destination;
                     if (currentTarget != null)
                     {
-                        _agent.stoppingDistance =
-                            _playerMovement.DistanceToStop;
-                        Vector3 directionToTarget =
-                            (hit.point - _playerMovement.transform.position)
-                            .normalized;
-                        destination = hit.point - directionToTarget *
-                            _playerMovement.DistanceToStop;
+                        _agent.stoppingDistance = DistanceToStop;
+                        Vector3 directionToTarget = (hit.point - _playerMovement.transform.position).normalized;
+                        destination = hit.point - directionToTarget * DistanceToStop;
                     }
                     else
                     {
