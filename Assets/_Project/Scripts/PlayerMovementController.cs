@@ -6,17 +6,18 @@ namespace _Project
 {
     public class PlayerMovementController
     {
-        public float DistanceToStop { get; private set; } = 1.5f;
         private readonly PlayerMovement _playerMovement;
         private readonly Camera _camera;
         private readonly NavMeshAgent _agent;
-
+        private readonly PlayerAttackSettings _attackSettings;
+        
         public PlayerMovementController(PlayerMovement playerMovement,
-            Camera camera)
+            Camera camera, PlayerAttackSettings attackSettings)
         {
             _playerMovement = playerMovement;
             _camera = camera;
             _agent = playerMovement.GetComponent<NavMeshAgent>();
+            _attackSettings = attackSettings;
         }
 
         public void Update()
@@ -32,13 +33,13 @@ namespace _Project
                     Vector3 destination;
                     if (currentTarget != null)
                     {
-                        _agent.stoppingDistance = DistanceToStop;
+                        _agent.stoppingDistance = _attackSettings.CurrentRange;
                         Vector3 directionToTarget = (hit.point - _playerMovement.transform.position).normalized;
-                        destination = hit.point - directionToTarget * DistanceToStop;
+                        destination = hit.point - directionToTarget * _attackSettings.CurrentRange;
                     }
                     else
                     {
-                        _agent.stoppingDistance = 1.0f;
+                        _agent.stoppingDistance = _attackSettings.DefaultStopDistance;
                         destination = hit.point;
                     }
 

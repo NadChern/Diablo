@@ -4,37 +4,6 @@ using UnityEngine;
 
 namespace _Project
 {
-    public class Potion : Item
-    {
-        public float HealAmount;
-    }
-
-    public class Gear : Item
-    {
-        public float DamageResistence;
-    }
-
-    public class Weapon : Item
-    {
-        public float Damage;
-        public float Range;
-        public float Cooldown;
-    }
-
-    public abstract class Item : ScriptableObject
-    {
-        public string Id;
-        public ItemType ItemType;
-        public Sprite Sprite;
-    }
-
-    public enum ItemType
-    {
-        Weapon,
-        Potion,
-        Gear
-    }
-
     public class PlayerInteraction : MonoBehaviour
     {
         [SerializeField] private Inventory _inventory;
@@ -57,19 +26,16 @@ namespace _Project
 
         private void Attack(Enemy enemy)
         {
-            StartAttackCoroutine(enemy);
-        }
-
-        private void StartAttackCoroutine(Enemy enemy)
-        {
             if (_attackCoroutine != null)
             {
+                Debug.Log("Stopping previous AttackEnemy coroutine.");
                 StopCoroutine(_attackCoroutine);
             }
 
-            Debug.Log("Starting AttackEnemy coroutine.");
+            Debug.Log("Starting new AttackEnemy coroutine.");
             _attackCoroutine = StartCoroutine(AttackEnemy(enemy));
         }
+
 
         private IEnumerator AttackEnemy(Enemy enemy)
         {
@@ -78,7 +44,7 @@ namespace _Project
             {
                 if (Vector3.Distance(transform.position, enemy.transform.position) > _attackSettings.CurrentRange)
                 {
-                    // If the player is out of range, stop attacking
+                    Debug.Log("Enemy is out of range. Stopping attack.");
                     break;
                 }
 
@@ -111,17 +77,8 @@ namespace _Project
                         Debug.Log("Collected potion to inventory.");
                     }
                 }
+
                 loot.DestroyLoot();
-            }
-        }
-
-        internal class ItemsStorage : ScriptableObject
-        {
-            [SerializeField] private Item[] _items;
-
-            public Item GetItemById(string byId)
-            {
-                return _items.First(x => x.Id == byId);
             }
         }
     }

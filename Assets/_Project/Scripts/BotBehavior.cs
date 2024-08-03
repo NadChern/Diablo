@@ -6,8 +6,13 @@ using _Project;
 [RequireComponent(typeof(NavMeshAgent))]
 public class BotBehavior : MonoBehaviour
 {
-    [SerializeField] private float detectionRange = 2.0f;
-    [SerializeField] private float attackRange = 1.5f;
+    [SerializeField] protected float detectionRange = 3.0f;
+    [SerializeField] protected float attackRange = 1.5f;
+    [SerializeField] protected float baseDamage = 1.0f;
+    [SerializeField] protected float minAttackCooldown = 1.0f;
+    [SerializeField] protected float maxAttackCooldown = 2.0f;
+    [SerializeField] private PlayerAttackSettings _attackSettings;
+    [SerializeField] protected float initialAttackDelay = 1.5f; 
     protected Transform Player;
     protected NavMeshAgent AgentBot;
     protected Coroutine AttackCoroutine;
@@ -32,15 +37,14 @@ public class BotBehavior : MonoBehaviour
                 Vector3.Distance(transform.position, Player.position);
             if (distanceToPlayer <= detectionRange)
             {
-                Debug.Log(
-                    "Player detected within range. Moving towards player.");
+                Debug.Log("Player detected within range. Moving towards player.");
                 AgentBot.SetDestination(Player.position);
                 if (distanceToPlayer <= attackRange)
                 {
                     if (AttackCoroutine == null)
                     {
                         Debug.Log("Enemy starting attack on player.");
-                        AttackCoroutine = StartCoroutine(AttackPlayer());
+                        AttackCoroutine = StartCoroutine(AttackPlayerWithDelay());
                     }
                 }
                 else if (AttackCoroutine != null)
@@ -55,24 +59,39 @@ public class BotBehavior : MonoBehaviour
         }
     }
 
+    
+    private IEnumerator AttackPlayerWithDelay()
+    {
+        // Initial delay before starting the attack coroutine
+        yield return new WaitForSeconds(initialAttackDelay);
+        AttackCoroutine = StartCoroutine(AttackPlayer());
+    }
     protected virtual IEnumerator AttackPlayer()
     {
-        while (Player !=null && Vector3.Distance(transform.position, Player.position) <=
+        while (Player != null && Vector3.Distance(transform.position, Player.position) <=
                attackRange)
         {
             Health playerHealth = Player.GetComponent<Health>();
             if (playerHealth != null && playerHealth.CurrentHealth > 0)
             {
-                playerHealth.TakeDamage(1); // TODO avoid hardcoding
+                float damageResistance = _attackSettings.CurrentDamageResistance;
+                float effectiveDamage = baseDamage * (1 - damageResistance);
+                Debug.Log(
+                    $"Enemy attacking player. Base Damage: {baseDamage}, Damage Resistance: {damageResistance}, Effective Damage: {effectiveDamage}");
+                playerHealth.TakeDamage(effectiveDamage);
+
+                // Calculate a random delay for the next attack
+                float randomCooldown = Random.Range(minAttackCooldown, maxAttackCooldown);
+                yield return new WaitForSeconds(randomCooldown);
             }
             else
             {
-                // Stop attacking if the player is dead or has been destroyed
+                Debug.Log("Player is dead or destroyed. Stopping attack.");
                 break;
             }
-            yield return new WaitForSeconds(1.0f); // Attack cooldown
         }
 
+        Debug.Log("Stopping AttackPlayer coroutine.");
         AttackCoroutine = null;
     }
 
@@ -81,3 +100,5 @@ public class BotBehavior : MonoBehaviour
         Player = player;
     }
 }
+
+    

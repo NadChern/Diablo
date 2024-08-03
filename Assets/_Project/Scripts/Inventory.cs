@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using _Project;
 
@@ -19,13 +20,18 @@ public class InventoryItem
 
 public class Inventory : MonoBehaviour
 {
-    [SerializeField] private PlayerInteraction.ItemsStorage _itemsStorage;
     [SerializeField] private PlayerAttackSettings _playerAttackSettings;
-    private List<InventoryItem> _items = new List<InventoryItem>();
-    private List<InventoryItem> _equippedItems = new List<InventoryItem>(5);
     [SerializeField] private Health _health;
-    // public IReadOnlyList<InventoryItem> Items => _items;
-    // public IReadOnlyList<InventoryItem> EquippedItems => _equippedItems;
+    private ItemsStorage _itemsStorage;
+
+    private const int MAX_EQUIP = 2; // gear and weapon
+
+    // how to deal with multiple gears/weapons in equip, so they dont interfere each other?
+    private List<InventoryItem> _items = new List<InventoryItem>();
+    private List<InventoryItem> _equippedItems = new List<InventoryItem>(MAX_EQUIP);
+    public IReadOnlyList<InventoryItem> EquippedItems => _equippedItems;
+    public IReadOnlyList<InventoryItem> Items => _items;
+
 
     // Add Item object to inventory by converting it to InventoryItem
     public void Put(Item item)
@@ -38,31 +44,33 @@ public class Inventory : MonoBehaviour
         _items.Remove(item);
     }
 
-    // Equip item if fewer than 3 items are equipped
+    // Equip item if fewer than max limit items are equipped
     public void Equip(InventoryItem item)
     {
-        if (_equippedItems.Count < 3)
+        Item originalItem = _itemsStorage.GetItemById(item.ItemID);
+
+        if (originalItem is Potion potion)
+        {
+            UsePotion(potion, item);
+            return;
+        }
+
+        // TODO how to deal with mult weapon and gear if they have same properties with dif values
+        // Check if the item is a weapon and if a weapon is already equipped
+        if (originalItem is Weapon && _equippedItems.Any(e => _itemsStorage.GetItemById(e.ItemID) is Weapon))
+        {
+            Debug.Log("Only one weapon can be equipped at a time.");
+            return;
+        }
+
+        // Equip item if there is space and it's a weapon or gear
+        if (_equippedItems.Count < MAX_EQUIP && (originalItem is Weapon || originalItem is Gear))
         {
             _equippedItems.Add(item);
-            Item originalItem = _itemsStorage.GetItemById(item.ItemID);
-            
-            if (originalItem is Weapon || originalItem is Gear)
-            {
-                ApplyWeaponGearEffect(originalItem, true);
-            }
-            else if (originalItem is Potion)
-            {
-                ApplyPotionEffect(originalItem, true);
-            }
-
-            Remove(item);
-        }
-        else
-        {
-            Debug.Log("You can equip a maximum of 3 items.");
+            _items.Remove(item);
+            ApplyWeaponGearEffect(originalItem, true);
         }
     }
-
 
     // Unequip item, reverse its effects, add it back to inventory
     public void Unequip(InventoryItem item)
@@ -70,46 +78,61 @@ public class Inventory : MonoBehaviour
         if (_equippedItems.Contains(item))
         {
             _equippedItems.Remove(item);
-            Item originalItem = _itemsStorage.GetItemById(item.ItemID);
-
-            if (originalItem is Weapon || originalItem is Gear)
-            {
-                ApplyWeaponGearEffect(originalItem, false);
-            }
-            
             _items.Add(item);
+            Item originalItem = _itemsStorage.GetItemById(item.ItemID);
+            ApplyWeaponGearEffect(originalItem, false);
         }
     }
 
-    private void ApplyPotionEffect(Item item, bool isEquipped)
+    private void UsePotion(Potion potion, InventoryItem item)
     {
-        if (item is Potion potion && isEquipped)
+        if (_health.CurrentHealth < _health.MaxHealth)
         {
-            if (_health.CurrentHealth < _health.MaxHealth * 0.25f)
-            {
-                _health.Heal(potion.HealAmount);
-                Debug.Log("Potion used to heal.");
-                // Remove potion after use
-                _equippedItems.Remove(new InventoryItem(item.name, item.Sprite, item.Id)); 
-            }  
+            _health.Heal(potion.HealAmount);
+            Remove(item);
+        }
+        else
+        {
+            Debug.Log("Health is not low enough to use the potion.");
         }
     }
+
     private void ApplyWeaponGearEffect(Item item, bool isEquipped)
     {
         if (item is Weapon weapon)
         {
-            if (isEquipped)
-            {
-                _playerAttackSettings.UpdateWeapon(weapon.Damage, weapon.Range, weapon.Cooldown);
-            }
-            else
-            {
-                _playerAttackSettings.ResetToDefault();
-            }
+            ApplyWeaponEffect(weapon, isEquipped);
         }
         else if (item is Gear gear)
         {
-            // TODO Apply gear effects, 
+            ApplyGearEffect(gear, isEquipped);
+        }
+    }
+
+    private void ApplyWeaponEffect(Weapon weapon, bool isEquipped)
+    {
+
+        if (isEquipped)
+        {
+            _playerAttackSettings.UpdateWeapon(weapon.Damage, weapon.Range, weapon.Cooldown);
+        }
+        else
+        {
+            _playerAttackSettings.ResetWeapon();
+        }
+    }
+
+    private void ApplyGearEffect(Gear gear, bool isEquipped)
+    {
+        if (isEquipped)
+        {
+            _playerAttackSettings.UpdateGear(gear.Velocity, gear.DamageResistence);
+        }
+        else
+        {
+            _playerAttackSettings.ResetGear();
         }
     }
 }
+
+

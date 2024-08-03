@@ -14,6 +14,7 @@ namespace _Project
         private void Start()
         {
             CurrentHealth = MaxHealth;
+            OnHealthChanged?.Invoke();
         }
 
         public void TakeDamage(float damage)

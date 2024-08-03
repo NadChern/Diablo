@@ -7,27 +7,26 @@ namespace _Project
     [RequireComponent(typeof(NavMeshAgent))]
     public class PlayerMovement : MonoBehaviour
     {
-        [SerializeField]  private PlayerInteraction _playerInteraction;
+        [SerializeField] private PlayerInteraction _playerInteraction;
+        [SerializeField] private PlayerAttackSettings _attackSettings;
         private NavMeshAgent _agent;
-        // private Camera _camera;
         private Coroutine _moveCoroutine;
-  
+
         private void Start()
         {
             _agent = GetComponent<NavMeshAgent>();
-            _agent.stoppingDistance = 0.5f;
-     }
+            _agent.speed = _attackSettings.CurrentVelocity;
+        }
 
         public void Move(Vector3 destination, IInteractable currentTarget)
         {
+            _agent.speed = _attackSettings.CurrentVelocity;
             _agent.SetDestination(destination);
             if (currentTarget != null)
             {
                 StartArrivalCoroutine(currentTarget);
             }
         }
-
-        // public void SetCamera(Camera cam) => _camera = cam;
 
         private void StartArrivalCoroutine(IInteractable currentTarget)
         {
@@ -48,6 +47,3 @@ namespace _Project
         }
     }
 }
-
-       
-
