@@ -13,6 +13,6 @@ namespace _Project
     {
         Weapon,
         Potion,
-        Gear
+        Armor
     }
 }

@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace _Project
 {
+   
     public class InventoryItem
     {
         public string ItemName { get; private set; }

@@ -31,7 +31,7 @@ namespace _Project
             CurrentCooldown = cooldown;
         }
 
-        public void UpdateGear(float velocity, float damageResistance)
+        public void UpdateArmor(float velocity, float damageResistance)
         {
             CurrentVelocity = velocity;
             CurrentDamageResistance = damageResistance;
@@ -44,7 +44,7 @@ namespace _Project
             CurrentCooldown = defaultCooldown;
         }
 
-        public void ResetGear()
+        public void ResetArmor()
         {
             CurrentVelocity = defaultVelocity;
             CurrentDamageResistance = defaultDamageResistance;
@@ -53,7 +53,7 @@ namespace _Project
         public void ResetToDefault()
         {
             ResetWeapon();
-            ResetGear();
+            ResetArmor();
         }
     }
 }

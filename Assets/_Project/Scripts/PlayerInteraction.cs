@@ -78,6 +78,18 @@ namespace _Project
                     }
                 }
 
+                else if (item is Weapon weapon)
+                {
+                    _inventory.Put(item);
+                    Debug.Log("Collected weapon to inventory.");
+                }
+
+                else if (item is Armor armor)
+                {
+                    _inventory.Put(item);
+                    Debug.Log("Collected armor to inventory.");
+                }
+
                 loot.DestroyLoot();
             }
         }
