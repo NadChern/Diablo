@@ -19,30 +19,48 @@ public class Inventory : MonoBehaviour
     public IReadOnlyList<InventoryItem> Items => _items;
 
 
+    private void Awake()
+    {
+        if (_inventoryUI == null)
+        {
+            Debug.LogError("Inventory: InventoryUI reference is not assigned.");
+        }
+    }
+    
+    
     // Add Item object to inventory by converting it to InventoryItem
     public void Put(Item item)
     {
         _items.Add(new InventoryItem(item.name, item.Sprite, item.Id));
+        Debug.Log($"Item added to inventory: {item.name}");
         _inventoryUI.UpdateSlotUI();
     }
 
     public void Remove(InventoryItem item)
     {
+        Debug.Log($"Removing item: {item.ItemName} from inventory.");
         _items.Remove(item);
+        Debug.Log("Inventory after removal:");
+        foreach (var i in _items)
+        {
+            Debug.Log($"- {i.ItemName}");
+        }
+
         _inventoryUI.UpdateSlotUI();
     }
 
     public int GetItemCount(string itemId)
     {
-        int count = 0;
-        foreach(InventoryItem item in _items)
-        {
-            if (item.ItemID == itemId)
-            {
-                count++;
-            }
-        }
-        return count;
+        return _items.Count(item => item.ItemID == itemId);
+        // int count = 0;
+        // foreach(InventoryItem item in _items)
+        // {
+        //     if (item.ItemID == itemId)
+        //     {
+        //         count++;
+        //     }
+        // }
+        // return count;
     }
     
     // Equip item if fewer than max limit items are equipped
@@ -64,12 +82,13 @@ public class Inventory : MonoBehaviour
             return;
         }
 
-        // Equip item if there is space and it's a weapon or gear
+        // Equip item if there is space and it's a weapon or armor
         if (_equippedItems.Count < MAX_EQUIP && (originalItem is Weapon || originalItem is Armor))
         {
             _equippedItems.Add(item);
             _items.Remove(item);
             ApplyWeaponGearEffect(originalItem, true);
+            _inventoryUI.UpdateSlotUI();
         }
     }
 
@@ -82,6 +101,7 @@ public class Inventory : MonoBehaviour
             _items.Add(item);
             Item originalItem = _itemsStorage.GetItemById(item.ItemID);
             ApplyWeaponGearEffect(originalItem, false);
+            _inventoryUI.UpdateSlotUI();
         }
     }
 
@@ -91,10 +111,6 @@ public class Inventory : MonoBehaviour
         {
             _health.Heal(potion.HealAmount);
             Remove(item);
-        }
-        else
-        {
-            Debug.Log("Health is not low enough to use the potion.");
         }
     }
 

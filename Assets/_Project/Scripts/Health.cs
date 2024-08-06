@@ -35,6 +35,12 @@ namespace _Project
             OnHealthChanged?.Invoke();
         }
 
+        public void SetMaxHealth(float newMaxHealth)
+        {
+            MaxHealth = newMaxHealth;
+            CurrentHealth = MaxHealth; // heal to max health on level up
+            OnHealthChanged?.Invoke();
+        }
         private void HandleDeath()
         {
             Destroy(gameObject);

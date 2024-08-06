@@ -1,9 +1,10 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 namespace _Project
 {
-    public class InventoryUI: MonoBehaviour
+    public class InventoryUI : MonoBehaviour
     {
         [SerializeField] private Inventory _inventory;
         [SerializeField] private GameObject InventoryWindow;
@@ -11,10 +12,11 @@ namespace _Project
         [SerializeField] private SlotUI SlotPrefab;
 
         private Dictionary<string, SlotUI> _slots = new Dictionary<string, SlotUI>();
-       
+        private GridLayoutGroup _gridLayoutGroup;
         private void Start()
         {
-            InventoryWindow.SetActive(false);
+           InventoryWindow.SetActive(false);
+           // UpdateSlotUI();
         }
 
       public void UpdateSlotUI()
@@ -32,6 +34,7 @@ namespace _Project
                     SlotUI slot = Instantiate(SlotPrefab, SlotsParent);
                     _slots[item.ItemID] = slot;
                     slot.SetSlot(item, _inventory.GetItemCount(item.ItemID));
+                    Debug.Log($"Slot for {item.ItemID} instantiated at position {slot.transform.localPosition}");
                 }
             }
 
