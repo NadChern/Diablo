@@ -10,7 +10,7 @@ namespace _Project
         private readonly Camera _camera;
         private readonly NavMeshAgent _agent;
         private readonly PlayerAttackSettings _attackSettings;
-        
+
         public PlayerMovementController(PlayerMovement playerMovement,
             Camera camera, PlayerAttackSettings attackSettings)
         {
@@ -28,22 +28,23 @@ namespace _Project
                         out RaycastHit hit))
                 {
                     GameObject clickedObject = hit.collider.gameObject;
-                    IInteractable currentTarget = clickedObject.GetComponent<IInteractable>();
-
                     Vector3 destination;
-                    if (currentTarget != null)
+
+                    if (clickedObject.TryGetComponent(out IInteractable currentTarget))
                     {
                         _agent.stoppingDistance = _attackSettings.CurrentRange;
                         Vector3 directionToTarget = (hit.point - _playerMovement.transform.position).normalized;
                         destination = hit.point - directionToTarget * _attackSettings.CurrentRange;
+                        
+                        _playerMovement.Move(destination, currentTarget);
                     }
                     else
                     {
                         _agent.stoppingDistance = _attackSettings.DefaultStopDistance;
                         destination = hit.point;
+                        
+                        _playerMovement.Move(destination);
                     }
-
-                    _playerMovement.Move(destination, currentTarget);
                 }
             }
         }

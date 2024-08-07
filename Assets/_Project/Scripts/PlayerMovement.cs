@@ -11,6 +11,7 @@ namespace _Project
         [SerializeField] private PlayerAttackSettings _attackSettings;
         private NavMeshAgent _agent;
         private Coroutine _moveCoroutine;
+        private IInteractable _currentTarget;
 
         private void Start()
         {
@@ -18,14 +19,24 @@ namespace _Project
             _agent.speed = _attackSettings.CurrentVelocity;
         }
 
-        public void Move(Vector3 destination, IInteractable currentTarget)
+        public void Move(Vector3 destination)
         {
+            _playerInteraction.DropInteraction(); // drop current interaction
             _agent.speed = _attackSettings.CurrentVelocity;
             _agent.SetDestination(destination);
-            if (currentTarget != null)
-            {
-                StartArrivalCoroutine(currentTarget);
-            }
+        }
+
+        public void Move(Vector3 destination, IInteractable currentTarget)
+        {
+            // Check that you don't try to interact with same target
+            // (to void auto-clicking for killing enemy faster)
+            if (currentTarget != null && _currentTarget == currentTarget)
+                return;
+            
+            _currentTarget = currentTarget;
+            
+            Move(destination);
+            StartArrivalCoroutine(currentTarget);
         }
 
         private void StartArrivalCoroutine(IInteractable currentTarget)

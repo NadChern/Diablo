@@ -11,8 +11,9 @@ public class BotBehavior : MonoBehaviour
     [SerializeField] protected float baseDamage = 1.0f;
     [SerializeField] protected float minAttackCooldown = 1.0f;
     [SerializeField] protected float maxAttackCooldown = 2.0f;
+
     [SerializeField] private PlayerAttackSettings _attackSettings;
-    [SerializeField] protected float initialAttackDelay = 1.5f; 
+
     protected Transform Player;
     protected NavMeshAgent AgentBot;
     protected Coroutine AttackCoroutine;
@@ -33,8 +34,7 @@ public class BotBehavior : MonoBehaviour
                 continue;
             }
 
-            float distanceToPlayer =
-                Vector3.Distance(transform.position, Player.position);
+            float distanceToPlayer = Vector3.Distance(transform.position, Player.position);
             if (distanceToPlayer <= detectionRange)
             {
                 Debug.Log("Player detected within range. Moving towards player.");
@@ -44,7 +44,7 @@ public class BotBehavior : MonoBehaviour
                     if (AttackCoroutine == null)
                     {
                         Debug.Log("Enemy starting attack on player.");
-                        AttackCoroutine = StartCoroutine(AttackPlayerWithDelay());
+                        AttackCoroutine = StartCoroutine(AttackPlayer());
                     }
                 }
                 else if (AttackCoroutine != null)
@@ -59,13 +59,7 @@ public class BotBehavior : MonoBehaviour
         }
     }
 
-    
-    private IEnumerator AttackPlayerWithDelay()
-    {
-        // Initial delay before starting the attack coroutine
-        yield return new WaitForSeconds(initialAttackDelay);
-        AttackCoroutine = StartCoroutine(AttackPlayer());
-    }
+
     protected virtual IEnumerator AttackPlayer()
     {
         while (Player != null && Vector3.Distance(transform.position, Player.position) <=
@@ -76,8 +70,6 @@ public class BotBehavior : MonoBehaviour
             {
                 float damageResistance = _attackSettings.CurrentDamageResistance;
                 float effectiveDamage = baseDamage * (1 - damageResistance);
-                Debug.Log(
-                    $"Enemy attacking player. Base Damage: {baseDamage}, Damage Resistance: {damageResistance}, Effective Damage: {effectiveDamage}");
                 playerHealth.TakeDamage(effectiveDamage);
 
                 // Calculate a random delay for the next attack
@@ -91,7 +83,6 @@ public class BotBehavior : MonoBehaviour
             }
         }
 
-        Debug.Log("Stopping AttackPlayer coroutine.");
         AttackCoroutine = null;
     }
 
@@ -100,5 +91,3 @@ public class BotBehavior : MonoBehaviour
         Player = player;
     }
 }
-
-    

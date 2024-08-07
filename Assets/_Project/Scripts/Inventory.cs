@@ -52,15 +52,7 @@ public class Inventory : MonoBehaviour
     public int GetItemCount(string itemId)
     {
         return _items.Count(item => item.ItemID == itemId);
-        // int count = 0;
-        // foreach(InventoryItem item in _items)
-        // {
-        //     if (item.ItemID == itemId)
-        //     {
-        //         count++;
-        //     }
-        // }
-        // return count;
+       
     }
     
     // Equip item if fewer than max limit items are equipped

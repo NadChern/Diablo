@@ -28,11 +28,9 @@ namespace _Project
         {
             if (_attackCoroutine != null)
             {
-                Debug.Log("Stopping previous AttackEnemy coroutine.");
                 StopCoroutine(_attackCoroutine);
             }
 
-            Debug.Log("Starting new AttackEnemy coroutine.");
             _attackCoroutine = StartCoroutine(AttackEnemy(enemy));
         }
 
@@ -44,8 +42,7 @@ namespace _Project
             {
                 if (Vector3.Distance(transform.position, enemy.transform.position) > _attackSettings.CurrentRange)
                 {
-                    Debug.Log("Enemy is out of range. Stopping attack.");
-                    break;
+                    yield return new WaitForSeconds(.5f);
                 }
 
                 Debug.Log("Attacking enemy. Current health: " + enemyHealth.CurrentHealth);
@@ -60,7 +57,6 @@ namespace _Project
         {
             Item item = _itemsStorage.GetItemById(loot.Id);
 
-            // heal logic 
             // if health is not at max ->heal, otherwise add to inventory
             if (item != null)
             {
@@ -91,6 +87,14 @@ namespace _Project
                 }
 
                 loot.DestroyLoot();
+            }
+        }
+
+        public void DropInteraction()
+        {
+            if (_attackCoroutine != null)
+            {
+                StopCoroutine(_attackCoroutine);
             }
         }
     }

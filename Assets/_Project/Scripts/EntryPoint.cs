@@ -1,3 +1,4 @@
+using Unity.AI.Navigation;
 using UnityEngine;
 
 namespace _Project
@@ -8,15 +9,20 @@ namespace _Project
         [SerializeField] private Camera _camera;
         [SerializeField] private Enemy[] _enemies;
         [SerializeField] private PlayerAttackSettings _attackSettings;
+        [SerializeField] private NavMeshSurface _navMeshSurface;
+        
         private PlayerMovementController _controller;
-
+        private LootService _lootService;
 
         private void Start()
         {
+            _lootService = new(_navMeshSurface);
             _controller = new PlayerMovementController(_playerMovement, _camera, _attackSettings);
-             foreach (Enemy enemy in _enemies)
+
+            foreach (Enemy enemy in _enemies)
             {
                 enemy.SetPlayer(_playerMovement.transform);
+                enemy.Construct(_lootService);
             }
         }
 

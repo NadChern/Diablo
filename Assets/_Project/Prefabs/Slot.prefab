@@ -63,9 +63,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _inventory: {fileID: 0}
   _quantity: 0
-  _icon: {fileID: 0}
-  _quantityText: {fileID: 0}
-  _removeButton: {fileID: 0}
+  _icon: {fileID: 5712528127658692808}
+  _quantityText: {fileID: 4603356875875480739}
+  _removeButton: {fileID: 8187520545438284471}
 --- !u!1 &2663153367343265055
 GameObject:
   m_ObjectHideFlags: 0
