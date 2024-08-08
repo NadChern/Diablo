@@ -22,6 +22,8 @@ namespace _Project
 
         public void Update()
         {
+            if (_agent == null) return;
+            
             if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
             {
                 if (Physics.Raycast(_camera.ScreenPointToRay(Input.mousePosition),
