@@ -1,3 +1,4 @@
+using TriInspector;
 using UnityEngine;
 
 namespace _Project
@@ -12,11 +13,11 @@ namespace _Project
         [SerializeField] private float defaultStopDistance = 1.0f;
         public float DefaultStopDistance => defaultStopDistance;
 
-        public float CurrentDamage { get; private set; }
-        public float CurrentRange { get; private set; }
-        public float CurrentCooldown { get; private set; }
-        public float CurrentVelocity { get; private set; }
-        public float CurrentDamageResistance { get; private set; }
+        [field: SerializeField, ReadOnly] public float CurrentDamage { get; private set; }
+        [field: SerializeField, ReadOnly] public float CurrentRange { get; private set; }
+        [field: SerializeField, ReadOnly] public float CurrentCooldown { get; private set; }
+        [field: SerializeField, ReadOnly] public float CurrentVelocity { get; private set; }
+        [field: SerializeField, ReadOnly] public float CurrentDamageResistance { get; private set; }
 
 
         private void Start()

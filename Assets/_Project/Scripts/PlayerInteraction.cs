@@ -60,30 +60,14 @@ namespace _Project
             // if health is not at max ->heal, otherwise add to inventory
             if (item != null)
             {
-                if (item is Potion potion)
+                if (item is Potion potion && _health.CurrentHealth < _health.MaxHealth)
                 {
-                    if (_health.CurrentHealth < _health.MaxHealth)
-                    {
-                        _health.Heal(potion.HealAmount);
-                        Debug.Log("Used potion to heal.");
-                    }
-                    else
-                    {
-                        _inventory.Put(item);
-                        Debug.Log("Collected potion to inventory.");
-                    }
+                    _health.Heal(potion.HealAmount);
+                    Debug.Log("Used potion to heal.");
                 }
-
-                else if (item is Weapon weapon)
+                else
                 {
-                    _inventory.Put(item);
-                    Debug.Log("Collected weapon to inventory.");
-                }
-
-                else if (item is Armor armor)
-                {
-                    _inventory.Put(item);
-                    Debug.Log("Collected armor to inventory.");
+                    _inventory.Put(item.Id);
                 }
 
                 loot.DestroyLoot();

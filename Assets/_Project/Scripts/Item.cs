@@ -7,6 +7,7 @@ namespace _Project
         public string Id;
         public ItemType ItemType;
         public Sprite Sprite;
+        public string Name;
     }
 
     public enum ItemType

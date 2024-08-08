@@ -314,6 +314,11 @@ MonoBehaviour:
   defaultVelocity: 4.5
   defaultDamageResistance: 0.1
   defaultStopDistance: 1
+  <CurrentDamage>k__BackingField: 0
+  <CurrentRange>k__BackingField: 0
+  <CurrentCooldown>k__BackingField: 0
+  <CurrentVelocity>k__BackingField: 0
+  <CurrentDamageResistance>k__BackingField: 0
 --- !u!1 &126584101
 GameObject:
   m_ObjectHideFlags: 0
@@ -1190,53 +1195,6 @@ Transform:
   - {fileID: 306748433}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &672253528
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 672253530}
-  - component: {fileID: 672253529}
-  m_Layer: 0
-  m_Name: InventoryManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &672253529
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 672253528}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e6c02f3b27f1487ca39ce6f66196381, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _playerAttackSettings: {fileID: 771530256}
-  _health: {fileID: 771530254}
-  _inventoryUI: {fileID: 1555078787}
---- !u!4 &672253530
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 672253528}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1351.41, y: 1020, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1415,6 +1373,11 @@ MonoBehaviour:
   defaultVelocity: 4
   defaultDamageResistance: 0.1
   defaultStopDistance: 1
+  <CurrentDamage>k__BackingField: 0
+  <CurrentRange>k__BackingField: 0
+  <CurrentCooldown>k__BackingField: 0
+  <CurrentVelocity>k__BackingField: 0
+  <CurrentDamageResistance>k__BackingField: 0
 --- !u!1 &763781021
 GameObject:
   m_ObjectHideFlags: 3
@@ -1526,6 +1489,7 @@ GameObject:
   - component: {fileID: 771530255}
   - component: {fileID: 771530256}
   - component: {fileID: 771530257}
+  - component: {fileID: 771530258}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1633,7 +1597,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a8c17e2cd5a7421da18b31a37174047, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _inventory: {fileID: 672253529}
+  _inventory: {fileID: 771530258}
   _health: {fileID: 771530254}
   _itemsStorage: {fileID: 11400000, guid: 8cc1da8f159b94fb4a453c2cd9d74169, type: 2}
   _attackSettings: {fileID: 771530256}
@@ -1655,6 +1619,11 @@ MonoBehaviour:
   defaultVelocity: 4.5
   defaultDamageResistance: 0.1
   defaultStopDistance: 1
+  <CurrentDamage>k__BackingField: 0
+  <CurrentRange>k__BackingField: 0
+  <CurrentCooldown>k__BackingField: 0
+  <CurrentVelocity>k__BackingField: 0
+  <CurrentDamageResistance>k__BackingField: 0
 --- !u!114 &771530257
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1668,6 +1637,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _health: {fileID: 771530254}
+--- !u!114 &771530258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 771530248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e6c02f3b27f1487ca39ce6f66196381, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerAttackSettings: {fileID: 771530256}
+  _health: {fileID: 771530254}
+  _itemsStorage: {fileID: 11400000, guid: 8cc1da8f159b94fb4a453c2cd9d74169, type: 2}
 --- !u!1 &856876009
 GameObject:
   m_ObjectHideFlags: 0
@@ -2422,7 +2406,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed9b2c853ff74642a0e4a1df57c86d7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _inventory: {fileID: 672253529}
+  _inventory: {fileID: 771530258}
+  _itemsStorage: {fileID: 11400000, guid: 8cc1da8f159b94fb4a453c2cd9d74169, type: 2}
   InventoryWindow: {fileID: 1555078785}
   SlotsParent: {fileID: 126584102}
   SlotPrefab: {fileID: 783781526533871297, guid: 8d0b6a643ad4746a28bba202d82c0b1a, type: 3}
@@ -2928,5 +2913,4 @@ SceneRoots:
   - {fileID: 118050313}
   - {fileID: 391664245}
   - {fileID: 1040671470}
-  - {fileID: 672253530}
   - {fileID: 201674484}

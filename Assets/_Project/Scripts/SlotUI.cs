@@ -1,34 +1,40 @@
 using UnityEngine.UI;
 using TMPro;
+using TriInspector;
 using UnityEngine;
 
 namespace _Project
 {
     public class SlotUI : MonoBehaviour
     {
-        [SerializeField] Inventory _inventory;
-        [SerializeField] private int _quantity;
         [SerializeField] private Image _icon;
         [SerializeField] private TextMeshProUGUI _quantityText;
         [SerializeField] private Button _removeButton;
+        [SerializeField] private Button _equipButton;
+        [SerializeField, ReadOnly] private int _quantity;
+
         private InventoryItem _item;
-        
-         public void SetSlot(InventoryItem item, int quantity)
+        private Inventory _inventory;
+
+        public void SetSlot(InventoryItem item, Inventory inventory, int quantity)
         {
-           if (_icon == null || item == null)
+            _inventory = inventory;
+            if (_icon == null || item == null)
             {
-                Debug.LogError("SlotUI: Icon or item is not assigned.");
                 return;
             }
-            
+
             _item = item;
             _quantity = quantity;
             _icon.sprite = _item.Icon;
             _quantityText.text = _quantity > 1 ? _quantity.ToString() : "";
             gameObject.SetActive(true);
-            _removeButton.onClick.AddListener(RemoveItem);
-            // GetComponent<Button>().onClick.AddListener(OnSlotClick);
+            _removeButton.onClick.AddListener(Remove);
+            _equipButton.onClick.AddListener(Use);
         }
+
+        private void Use() =>
+            _inventory.Equip(_item.ItemID);
 
         public void ClearSlot()
         {
@@ -38,21 +44,11 @@ namespace _Project
             _quantityText.text = "";
             gameObject.SetActive(false);
             _removeButton.onClick.RemoveAllListeners();
-            // GetComponent<Button>().onClick.RemoveAllListeners();
-        }
-        public void RemoveItem()
-        {
-            Debug.Log($"Attempting to remove item: {_item.ItemName} from slot.");
-            _inventory.Remove(_item);
         }
 
-        public void OnSlotClick()
+        private void Remove()
         {
-            if (_item != null)
-            {
-                _inventory.Equip(_item);
-            }
+            _inventory.Remove(_item.ItemID);
         }
-        
     }
 }

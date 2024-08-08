@@ -14,7 +14,7 @@ namespace _Project
             if (_playerStats != null)
             {
                 _playerStats.OnStatsChanged += UpdatePlayerStatsUI;
-                UpdatePlayerStatsUI(); // Initialize stats UI
+                // UpdatePlayerStatsUI(); // Initialize stats UI
             }
         }
 
