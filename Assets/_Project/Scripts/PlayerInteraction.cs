@@ -68,6 +68,7 @@ namespace _Project
                 else
                 {
                     _inventory.Put(item.Id);
+                   
                 }
 
                 loot.DestroyLoot();
