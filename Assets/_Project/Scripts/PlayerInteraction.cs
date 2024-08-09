@@ -44,12 +44,25 @@ namespace _Project
                 {
                     yield return new WaitForSeconds(.5f);
                 }
-
+        
                 Debug.Log("Attacking enemy. Current health: " + enemyHealth.CurrentHealth);
                 enemyHealth.TakeDamage(_attackSettings.CurrentDamage);
-                yield return new WaitForSeconds(_attackSettings.CurrentCooldown);
+                
+               
+                // No cooldown between attacks if clicking is detected
+                if (Input.GetMouseButton(0))
+                {  
+                    Debug.Log("Rapid click detected, skipping cooldown.");
+                    yield return null;
+                }
+                else
+                {
+                    Debug.Log("Waiting for cooldown: " + _attackSettings.CurrentCooldown + " seconds.");
+                    yield return new WaitForSeconds(_attackSettings.CurrentCooldown);
+                }
+                
             }
-
+            
             _attackCoroutine = null;
         }
 

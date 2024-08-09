@@ -9,7 +9,7 @@ public class BotBehavior : MonoBehaviour
     [SerializeField] protected float detectionRange = 3.0f;
     [SerializeField] protected float attackRange = 1.5f;
     [SerializeField] protected float baseDamage = 1.0f;
-    [SerializeField] protected float minAttackCooldown = 1.0f;
+    [SerializeField] protected float minAttackCooldown = 0.1f;
     [SerializeField] protected float maxAttackCooldown = 2.0f;
 
     [SerializeField] private PlayerAttackSettings _attackSettings;

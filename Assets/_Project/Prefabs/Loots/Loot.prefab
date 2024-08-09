@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2193293194265901023}
   - component: {fileID: 250719111079201707}
   - component: {fileID: 6035764662555921317}
+  - component: {fileID: 540563797677190922}
   m_Layer: 0
   m_Name: Loot
   m_TagString: Loot
@@ -88,6 +89,22 @@ MonoBehaviour:
   m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
+--- !u!208 &540563797677190922
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1822748944578957889}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &2129124130490403260
 GameObject:
   m_ObjectHideFlags: 0

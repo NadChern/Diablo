@@ -1,4 +1,5 @@
 using _Project;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,15 +11,19 @@ public class HealthUI : MonoBehaviour
     [SerializeField] private Health _entityHealth;
     [SerializeField] private bool _isPlayer;
     [SerializeField] private Camera _camera;
-    
-    
+    [SerializeField] private TextMeshProUGUI _healthText;
+
+
     private void Start()
     {
         if (_entityHealth != null)
         {
             _entityHealth.OnHealthChanged += UpdateHealthUI;
+            UpdateHealthUI();
         }
     }
+
+    private void OnDestroy() => _entityHealth.OnHealthChanged -= UpdateHealthUI;
 
     private void Update()
     {
@@ -31,7 +36,7 @@ public class HealthUI : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(transform.position - _camera.transform.position);
         }
     }
-    
+
     private void UpdateHealthUI()
     {
         if (_entityHealth != null && _healthSlider != null)
@@ -39,11 +44,13 @@ public class HealthUI : MonoBehaviour
             _healthSlider.maxValue = _entityHealth.MaxHealth;
             _healthSlider.value = _entityHealth.CurrentHealth;
 
-            
+
             // Calculate health percentage
             float healthPercentage = _entityHealth.CurrentHealth
                                      / _entityHealth.MaxHealth;
-            
+
+            _healthText.text = $"{(int)_entityHealth.CurrentHealth}/{(int)_entityHealth.MaxHealth}";
+
             if (_isPlayer)
             {
                 // Player color logic: green, yellow, red

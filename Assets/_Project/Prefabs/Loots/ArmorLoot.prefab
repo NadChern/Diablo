@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7730199009967220518}
   - component: {fileID: 6673620170794165254}
   - component: {fileID: 899655293226984454}
+  - component: {fileID: -4534501067272235804}
   m_Layer: 0
   m_Name: ArmorLoot
   m_TagString: Untagged
@@ -88,6 +89,22 @@ MonoBehaviour:
   m_IgnoreFromBuild: 1
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
+--- !u!208 &-4534501067272235804
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 373514054342972752}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &5369163236017403270
 GameObject:
   m_ObjectHideFlags: 0
