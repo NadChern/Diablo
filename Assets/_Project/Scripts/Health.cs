@@ -18,7 +18,8 @@ namespace _Project
         }
 
         public void TakeDamage(float damage)
-        {
+        { 
+            Debug.Log("Damage received: " + damage);
             CurrentHealth = Mathf.Max(CurrentHealth - damage, 0);
             if (CurrentHealth == 0)
             {

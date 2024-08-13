@@ -10,6 +10,7 @@ namespace _Project
         public int Experience { get; private set; } = 0;
         public int LevelUpBase { get; private set; } = 300;
         public event Action OnStatsChanged;
+        public event Action OnLevelCompleted;
 
         // Experience required for the next level
         public int ExperienceToNextLevel => LevelUpBase * Level;
@@ -33,6 +34,10 @@ namespace _Project
             _health.SetMaxHealth(newMaxHealth);
             Debug.Log($"Leveled up to {Level}! Health: {_health.MaxHealth}");
             OnStatsChanged?.Invoke();
+            if (Level == 3)
+            {
+                OnLevelCompleted?.Invoke();
+            }
         }
     }
 }

@@ -12,6 +12,7 @@ namespace _Project
         [SerializeField] private PlayerAttackSettings _attackSettings;
         private Coroutine _attackCoroutine;
 
+
         public void Interact(IInteractable interactable)
         {
             if (interactable is Enemy enemy)
@@ -34,37 +35,50 @@ namespace _Project
             _attackCoroutine = StartCoroutine(AttackEnemy(enemy));
         }
 
-
+        
+// TODO: what to do with cooldown? it doesnt used at all but part of the weapon
         private IEnumerator AttackEnemy(Enemy enemy)
         {
+            Debug.Log("AttackEnemy coroutine started.");
             Health enemyHealth = enemy.GetComponent<Health>();
+
             while (enemy != null && enemyHealth.CurrentHealth > 0)
             {
                 if (Vector3.Distance(transform.position, enemy.transform.position) > _attackSettings.CurrentRange)
                 {
-                    yield return new WaitForSeconds(.5f);
+                    yield return new WaitForSeconds(0.5f);
                 }
-        
+
                 Debug.Log("Attacking enemy. Current health: " + enemyHealth.CurrentHealth);
+                
                 enemyHealth.TakeDamage(_attackSettings.CurrentDamage);
-                
-               
-                // No cooldown between attacks if clicking is detected
-                if (Input.GetMouseButton(0))
-                {  
-                    Debug.Log("Rapid click detected, skipping cooldown.");
-                    yield return null;
-                }
-                else
-                {
-                    Debug.Log("Waiting for cooldown: " + _attackSettings.CurrentCooldown + " seconds.");
-                    yield return new WaitForSeconds(_attackSettings.CurrentCooldown);
-                }
-                
+
+                yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
+                yield return new WaitForSeconds(0.2f);
             }
-            
+
+            Debug.Log("AttackEnemy coroutine ended.");
             _attackCoroutine = null;
         }
+
+
+        // private IEnumerator AttackEnemy(Enemy enemy)
+        // {
+        //     Health enemyHealth = enemy.GetComponent<Health>();
+        //     while (enemy != null && enemyHealth.CurrentHealth > 0)
+        //     {
+        //         if (Vector3.Distance(transform.position, enemy.transform.position) > _attackSettings.CurrentRange)
+        //         {
+        //             yield return new WaitForSeconds(.5f);
+        //         }
+        //
+        //         Debug.Log("Attacking enemy. Current health: " + enemyHealth.CurrentHealth);
+        //         enemyHealth.TakeDamage(_attackSettings.CurrentDamage);
+        //         yield return new WaitForSeconds(_attackSettings.CurrentCooldown);
+        //     }
+        //
+        //     _attackCoroutine = null;
+        // }
 
         private void Collect(Loot loot)
         {
@@ -81,7 +95,6 @@ namespace _Project
                 else
                 {
                     _inventory.Put(item.Id);
-                   
                 }
 
                 loot.DestroyLoot();

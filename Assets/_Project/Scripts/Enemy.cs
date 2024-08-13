@@ -4,7 +4,7 @@ namespace _Project
 {
     public class Enemy : BotBehavior, IInteractable
     {
-        [SerializeField] private int _experienceReward = 100;
+        [SerializeField] private int _experienceReward = 50;
         [SerializeField] private Transform lootSpawnPoint;
         [SerializeField] private Health _health;
         [SerializeField] private PlayerStats _playerStats;
