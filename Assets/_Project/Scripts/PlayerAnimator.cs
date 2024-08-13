@@ -23,13 +23,18 @@ namespace _Project
             HandleRunning();
         }
 
+        public void Shoot()
+        {
+            _animator.SetTrigger("Fire");
+        }
+
         private void AnimatorControllers()
         {
             Vector3 localVelocity = transform.InverseTransformDirection(_agent.velocity);
 
             // Set the animator parameters based on the local velocity
-            _animator.SetFloat("xVelocity", localVelocity.x, .1f, Time.deltaTime);
-            _animator.SetFloat("zVelocity", localVelocity.z, .1f, Time.deltaTime);
+            _animator.SetFloat("xVelocity", localVelocity.x);
+            _animator.SetFloat("zVelocity", localVelocity.z);
         }
 
         private void HandleRunning()
@@ -37,12 +42,11 @@ namespace _Project
             if ((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && _agent.velocity.magnitude > 0)
             {
                 _animator.SetBool("isRunning", true);
-                _agent.speed = _attackSettings.CurrentVelocity * 1.5f; // Increase speed for running
-            }
+                _agent.speed = _attackSettings.CurrentVelocity * 1.5f; }
             else
             {
                 _animator.SetBool("isRunning", false);
-                _agent.speed = _attackSettings.CurrentVelocity; // Reset to normal speed
+                _agent.speed = _attackSettings.CurrentVelocity; 
             }
         }
     }

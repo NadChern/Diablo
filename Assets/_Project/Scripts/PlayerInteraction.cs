@@ -41,14 +41,15 @@ namespace _Project
         {
             Debug.Log("AttackEnemy coroutine started.");
             Health enemyHealth = enemy.GetComponent<Health>();
-
+            PlayerAnimator playerAnimator = GetComponent<PlayerAnimator>();
+            
             while (enemy != null && enemyHealth.CurrentHealth > 0)
             {
                 if (Vector3.Distance(transform.position, enemy.transform.position) > _attackSettings.CurrentRange)
                 {
                     yield return new WaitForSeconds(0.5f);
                 }
-
+                playerAnimator.Shoot();
                 Debug.Log("Attacking enemy. Current health: " + enemyHealth.CurrentHealth);
                 
                 enemyHealth.TakeDamage(_attackSettings.CurrentDamage);
