@@ -20,9 +20,6 @@ namespace _Project
             Item item = _itemsStorage.GetItemById(id);
             Loot loot = Object.Instantiate(item.Loot, position, Quaternion.identity);
             loot.Initialize(id); // Initialize the loot with its ID
-
-            // Bake NavMeshSurface after dropping loot
-            _navMeshSurface.BuildNavMesh();
             Debug.Log($"Loot with ID {id} dropped.");
         }
     }

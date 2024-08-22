@@ -21,9 +21,11 @@ namespace _Project
 
         public void Move(Vector3 destination)
         {
+            _agent.updateRotation = true;
             _playerInteraction.DropInteraction(); // drop current interaction
             _agent.speed = _attackSettings.CurrentVelocity;
             _agent.SetDestination(destination);
+            _currentTarget = null;
         }
 
         public void Move(Vector3 destination, IInteractable currentTarget)

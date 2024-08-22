@@ -8,7 +8,7 @@ public class Inventory : MonoBehaviour
 {
     public event Action Updated;
 
-    [SerializeField] private PlayerAttackSettings _playerAttackSettings;
+    [SerializeField] private PlayerAttackSettings _playerAttackSettings;    
     [SerializeField] private Health _health;
     [SerializeField] private ItemsStorage _itemsStorage;
     private const int MAX_EQUIP = 2; // armor + weapon

@@ -1,6 +1,6 @@
 using System.Collections;
-using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace _Project
 {
@@ -10,8 +10,12 @@ namespace _Project
         [SerializeField] private Health _health;
         [SerializeField] private ItemsStorage _itemsStorage;
         [SerializeField] private PlayerAttackSettings _attackSettings;
+        [SerializeField] private NavMeshAgent _navMeshAgent;
+        [SerializeField] private float _rotationSpeed;
+        [SerializeField] private float _attackCooldown = 0.2f;
+        [SerializeField] private float _attackRangeCheckInterval = 0.5f;
+        
         private Coroutine _attackCoroutine;
-
 
         public void Interact(IInteractable interactable)
         {
@@ -36,7 +40,6 @@ namespace _Project
         }
 
         
-// TODO: what to do with cooldown? it doesnt used at all but part of the weapon
         private IEnumerator AttackEnemy(Enemy enemy)
         {
             Debug.Log("AttackEnemy coroutine started.");
@@ -45,17 +48,19 @@ namespace _Project
             
             while (enemy != null && enemyHealth.CurrentHealth > 0)
             {
+                _navMeshAgent.updateRotation = false;
+                transform.forward = (enemy.transform.position - transform.position).normalized;
+                
                 if (Vector3.Distance(transform.position, enemy.transform.position) > _attackSettings.CurrentRange)
                 {
-                    yield return new WaitForSeconds(0.5f);
+                    yield return new WaitForSeconds(_attackRangeCheckInterval);
                 }
                 playerAnimator.Shoot();
                 Debug.Log("Attacking enemy. Current health: " + enemyHealth.CurrentHealth);
                 
                 enemyHealth.TakeDamage(_attackSettings.CurrentDamage);
 
-                yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
-                yield return new WaitForSeconds(0.2f);
+                yield return new WaitForSeconds(_attackCooldown);
             }
 
             Debug.Log("AttackEnemy coroutine ended.");
@@ -63,25 +68,7 @@ namespace _Project
         }
 
 
-        // private IEnumerator AttackEnemy(Enemy enemy)
-        // {
-        //     Health enemyHealth = enemy.GetComponent<Health>();
-        //     while (enemy != null && enemyHealth.CurrentHealth > 0)
-        //     {
-        //         if (Vector3.Distance(transform.position, enemy.transform.position) > _attackSettings.CurrentRange)
-        //         {
-        //             yield return new WaitForSeconds(.5f);
-        //         }
-        //
-        //         Debug.Log("Attacking enemy. Current health: " + enemyHealth.CurrentHealth);
-        //         enemyHealth.TakeDamage(_attackSettings.CurrentDamage);
-        //         yield return new WaitForSeconds(_attackSettings.CurrentCooldown);
-        //     }
-        //
-        //     _attackCoroutine = null;
-        // }
-
-        private void Collect(Loot loot)
+      private void Collect(Loot loot)
         {
             Item item = _itemsStorage.GetItemById(loot.Id);
 

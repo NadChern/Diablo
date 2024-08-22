@@ -5,8 +5,8 @@ namespace _Project
 {
     public class Health : MonoBehaviour
     {
-        public float MaxHealth { get; private set; } = 10;
-        public float CurrentHealth { get; private set; }
+        [field:SerializeField] public float MaxHealth { get; private set; } = 20;
+        [field:SerializeField] public float CurrentHealth { get; private set; }
         public event Action OnHealthChanged;
         public event Action OnDeath;
 
