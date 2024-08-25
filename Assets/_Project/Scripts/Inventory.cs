@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using _Project;
+using TriInspector;
 
 public class Inventory : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class Inventory : MonoBehaviour
     [SerializeField] private PlayerAttackSettings _playerAttackSettings;    
     [SerializeField] private Health _health;
     [SerializeField] private ItemsStorage _itemsStorage;
+    [SerializeField] private string _defaultWeaponId = "6";
+    [SerializeField] private WeaponVisualController _weaponVisualController;
+    
     private const int MAX_EQUIP = 2; // armor + weapon
     private List<InventoryCell> _items = new();
     private List<string> _equippedItems = new(MAX_EQUIP);
@@ -18,6 +22,11 @@ public class Inventory : MonoBehaviour
     public List<string> EquippedItems => _equippedItems;
     public List<InventoryCell> Items => _items;
 
+    private void Start()
+    {
+        // Equip the default weapon at the start
+        Equip(_defaultWeaponId);
+    }
 
     public void Put(string id)
     {
@@ -52,6 +61,7 @@ public class Inventory : MonoBehaviour
         TryReplace<Armor>(originalItem);
     }
 
+   
     private void TryReplace<T>(Item origin) where T : Item
     {
         if (origin is T t)
@@ -70,6 +80,13 @@ public class Inventory : MonoBehaviour
     {
         _equippedItems.Add(id);
         Remove(id);
+        
+        // Check if the item is a weapon before updating the visual representation
+        Item equippedItem = _itemsStorage.GetItemById(id);
+        if (equippedItem is Weapon)
+        {
+            _weaponVisualController.EquipWeapon(id);
+        }
     }
 
     private void UnequipItem(string id)

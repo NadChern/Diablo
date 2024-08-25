@@ -47,7 +47,7 @@ namespace _Project
             if ((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && _agent.velocity.magnitude > 0)
             {
                 _animator.SetBool(_isRunning, true);
-                _agent.speed = _attackSettings.CurrentVelocity * 1.5f; }
+                _agent.speed = _attackSettings.CurrentVelocity + 1.5f; }
             else
             {
                 _animator.SetBool(_isRunning, false);

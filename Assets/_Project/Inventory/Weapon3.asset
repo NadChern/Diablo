@@ -15,8 +15,8 @@ MonoBehaviour:
   Id: 3
   ItemType: 0
   Sprite: {fileID: 1352044876, guid: be55291aae08d434db3da3b59db3ab4a, type: 3}
-  Name: DoubleSidedAxe
-  Loot: {fileID: 250719111079201707, guid: c035dcc8dc7944c2589ee496e2e2be9a, type: 3}
+  Name: SubMachineGun
+  Loot: {fileID: 3939192612122332109, guid: 005dfd4770c3e4975bc50bfa5e7f1b35, type: 3}
   Damage: 2
-  Range: 2
+  Range: 4
   Cooldown: 1

@@ -6,9 +6,9 @@ namespace _Project
     public class PlayerAttackSettings : MonoBehaviour
     {
         [SerializeField] private float defaultDamage = 1.0f;
-        [SerializeField] private float defaultRange = 1.5f;
+        [SerializeField] private float defaultRange = 3.0f;
         [SerializeField] private float defaultCooldown = 1.0f;
-        [SerializeField] private float defaultVelocity = 4.5f;
+        [SerializeField] private float defaultVelocity = 3.5f;
         [SerializeField] private float defaultDamageResistance = 0.1f;
         [SerializeField] private float defaultStopDistance = 1.0f;
         public float DefaultStopDistance => defaultStopDistance;

@@ -15,8 +15,8 @@ MonoBehaviour:
   Id: 4
   ItemType: 0
   Sprite: {fileID: 410906621, guid: be55291aae08d434db3da3b59db3ab4a, type: 3}
-  Name: Crossbow
-  Loot: {fileID: 250719111079201707, guid: c035dcc8dc7944c2589ee496e2e2be9a, type: 3}
-  Damage: 4
-  Range: 3
+  Name: Rifle
+  Loot: {fileID: 1027503204164097703, guid: e7f720b61b1954af88bdabbb6f8f5d99, type: 3}
+  Damage: 2
+  Range: 3.5
   Cooldown: 0.5

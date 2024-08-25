@@ -16,6 +16,6 @@ MonoBehaviour:
   ItemType: 2
   Sprite: {fileID: 1625896041, guid: be55291aae08d434db3da3b59db3ab4a, type: 3}
   Name: Armor
-  Loot: {fileID: 250719111079201707, guid: c035dcc8dc7944c2589ee496e2e2be9a, type: 3}
+  Loot: {fileID: 6673620170794165254, guid: e971c17c71fec4e78a6b2bada325e805, type: 3}
   DamageResistence: 0.7
-  Velocity: 3.5
+  Velocity: 3

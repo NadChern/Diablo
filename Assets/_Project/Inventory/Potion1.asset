@@ -16,5 +16,5 @@ MonoBehaviour:
   ItemType: 1
   Sprite: {fileID: 50426615, guid: be55291aae08d434db3da3b59db3ab4a, type: 3}
   Name: GreenPotion
-  Loot: {fileID: 250719111079201707, guid: c035dcc8dc7944c2589ee496e2e2be9a, type: 3}
+  Loot: {fileID: 5355110109771564153, guid: f2b11ff42b32c4a76af8474ffcd0966a, type: 3}
   HealAmount: 10

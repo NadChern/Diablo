@@ -6,7 +6,7 @@ using _Project;
 [RequireComponent(typeof(NavMeshAgent))]
 public class BotBehavior : MonoBehaviour
 {
-    [SerializeField] protected float detectionRange = 3.0f;
+    [SerializeField] protected float detectionRange = 5.0f;
     [SerializeField] protected float attackRange = 1.5f;
     [SerializeField] protected float baseDamage = 1.0f;
     [SerializeField] protected float minAttackCooldown = 0.1f;

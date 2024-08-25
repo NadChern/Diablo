@@ -5,6 +5,7 @@ public class HoverEffectManager : MonoBehaviour
 {
     [SerializeField] private GameObject hoverEffectPrefab;
     [SerializeField] private Camera _camera;
+    [SerializeField] private Inventory _inventory;
     private GameObject _currentEffect;
     private Transform _lastHoveredObject;
 
