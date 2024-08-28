@@ -1,6 +1,3 @@
-<component name="InspectionProjectProfileManager">
-  <profile version="1.0">
-    <option name="myName" value="Project Default" />
-    <inspection_tool class="HttpClientUnresolvedAuthId" enabled="true" level="ERROR" enabled_by_default="true" />
-  </profile>
-</component>
+version https://git-lfs.github.com/spec/v1
+oid sha256:dacb6533cd540362e065b4b95c04bf4141152a04ea6511bb711442c31d6473a0
+size 269

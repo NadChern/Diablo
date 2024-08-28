@@ -1,18 +1,3 @@
-using UnityEngine;
-using UnityEngine.SceneManagement;
-
-namespace _Project
-{
-    public static class Constants
-    {
-        public const string GAME_SCENE_NAME = "SampleScene";
-    }
-    
-    public class TitleScreenScript : MonoBehaviour
-    {
-        public void LoadGameScene()
-        {
-            SceneManager.LoadScene(Constants.GAME_SCENE_NAME, LoadSceneMode.Single);
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:921a70f989d7279c5c4d806ce9e79acc957181d8fb568bcd9bbf6bfbcf8dedae
+size 412

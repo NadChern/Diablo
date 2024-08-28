@@ -1,21 +1,3 @@
-%YAML 1.1
-%TAG !u! tag:unity3d.com,2011:
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c3fbf899f3247beb3010cea18429782, type: 3}
-  m_Name: Armor
-  m_EditorClassIdentifier: 
-  Id: 5
-  ItemType: 2
-  Sprite: {fileID: 1625896041, guid: be55291aae08d434db3da3b59db3ab4a, type: 3}
-  Name: Armor
-  Loot: {fileID: 6673620170794165254, guid: e971c17c71fec4e78a6b2bada325e805, type: 3}
-  DamageResistence: 0.7
-  Velocity: 3
+version https://git-lfs.github.com/spec/v1
+oid sha256:6bb0a7e6d4f82a1f8d5d9a78a2db3fba3d84446f993d3da7959c342bed3cf253
+size 635

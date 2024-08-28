@@ -1,20 +1,3 @@
-using UnityEngine;
-
-namespace _Project
-{
-    public abstract class Item : ScriptableObject
-    {
-        public string Id;
-        public ItemType ItemType;
-        public Sprite Sprite;
-        public string Name;
-        public Loot Loot;
-    }
-
-    public enum ItemType
-    {
-        Weapon,
-        Potion,
-        Armor
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:d6aa977a43fdbd985585446ab75fffc209d18ea12a20a1bc1da6493065757bd9
+size 353

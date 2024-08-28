@@ -1,36 +1,3 @@
-using System;
-using UnityEngine;
-using TMPro;
-
-namespace _Project
-{
-    public class PlayerStatsUI : MonoBehaviour
-    {
-        [SerializeField] private TextMeshProUGUI _levelText; 
-        [SerializeField] private TextMeshProUGUI _experienceText; 
-        [SerializeField] private PlayerStats _playerStats; 
-
-        private void Start()
-        {
-            if (_playerStats != null)
-            {
-                _playerStats.OnStatsChanged += UpdatePlayerStatsUI;
-                UpdatePlayerStatsUI();  
-            }
-        }
-
-        private void OnDestroy()
-        {
-            _playerStats.OnStatsChanged -= UpdatePlayerStatsUI;
-        }
-
-        private void UpdatePlayerStatsUI()
-        {
-            if (_playerStats != null)
-            {
-                _levelText.text = $"Level: {_playerStats.Level}";
-                _experienceText.text = $"Experience: {_playerStats.Experience}/{_playerStats.ExperienceToNextLevel}";
-            }
-        }
-    }
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:3a1133dbe52327d2082194753e86c7ae7bdacc8a50fad4804caf0ecf0aa6892e
+size 1011

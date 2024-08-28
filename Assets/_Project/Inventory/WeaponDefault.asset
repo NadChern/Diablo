@@ -1,22 +1,3 @@
-%YAML 1.1
-%TAG !u! tag:unity3d.com,2011:
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa268e488f454c2484033cceb0744275, type: 3}
-  m_Name: WeaponDefault
-  m_EditorClassIdentifier: 
-  Id: 6
-  ItemType: 0
-  Sprite: {fileID: -1055781779, guid: be55291aae08d434db3da3b59db3ab4a, type: 3}
-  Name: Shotgun
-  Loot: {fileID: 250719111079201707, guid: dd6b9bc3bb4664b69ab2017e366b2ea6, type: 3}
-  Damage: 1
-  Range: 3
-  Cooldown: 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:211f4941042879fa288b26c70e041a51648a007e563f85d917ddcb3d469b3de7
+size 644

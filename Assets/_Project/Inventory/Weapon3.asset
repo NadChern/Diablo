@@ -1,22 +1,3 @@
-%YAML 1.1
-%TAG !u! tag:unity3d.com,2011:
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa268e488f454c2484033cceb0744275, type: 3}
-  m_Name: Weapon3
-  m_EditorClassIdentifier: 
-  Id: 3
-  ItemType: 0
-  Sprite: {fileID: 1352044876, guid: be55291aae08d434db3da3b59db3ab4a, type: 3}
-  Name: SubMachineGun
-  Loot: {fileID: 3939192612122332109, guid: 005dfd4770c3e4975bc50bfa5e7f1b35, type: 3}
-  Damage: 2
-  Range: 4
-  Cooldown: 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:aa4dfbebac7eb1d2273977e53e83056467a83697c0ac10d2d3803e083c0efd20
+size 644
