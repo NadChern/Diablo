@@ -2,6 +2,8 @@
 
 A Unity-based action RPG game demo inspired by the Diablo series, showcasing modern game development practices and advanced Unity features.
 
+[![Video Demo](https://img.youtube.com/vi/KeuvVnU11dk/0.jpg)](https://www.youtube.com/watch?v=KeuvVnU11dk)
+
 ## Features
 
 - **Dynamic Combat System**
